@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Helmet with Gas Sensors</title>
+
+<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#0b1220;
+  color:white;
+}
+
+header{
+  background:#111827;
+  padding:15px 25px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:10;
+  border-bottom:1px solid #1f2937;
+}
+
+.logo-area{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.logo-area img{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:white;
+  padding:4px;
+}
+
+header h1{
+  color:#38bdf8;
+  font-size:18px;
+  margin:0;
+}
+
+header p{
+  margin:3px 0 0;
+  color:#94a3b8;
+  font-size:12px;
+}
+
+nav a{
+  color:white;
+  text-decoration:none;
+  margin-left:12px;
+  font-size:14px;
+  cursor:pointer;
+}
+
+nav a:hover{
+  color:#38bdf8;
+}
+
+.page{
+  display:none;
+  padding:25px;
+}
+
+.page.active{
+  display:block;
+}
+
+.hero{
+  padding:65px 40px;
+  background:linear-gradient(135deg,#0ea5e9,#1e293b);
+  border-radius:0 0 18px 18px;
+}
+
+.hero h1{
+  margin:0;
+  font-size:42px;
+}
+
+.hero p{
+  font-size:18px;
+  max-width:800px;
+  line-height:1.6;
+}
+
+.badges{
+  margin-top:20px;
+}
+
+.badge{
+  display:inline-block;
+  background:#0f172a;
+  color:#bae6fd;
+  padding:8px 12px;
+  border-radius:20px;
+  margin:5px 5px 0 0;
+  font-size:13px;
+}
+
+.section{
+  background:#111827;
+  padding:24px;
+  border-radius:14px;
+  margin-bottom:20px;
+  line-height:1.7;
+  box-shadow:0 8px 20px rgba(0,0,0,0.18);
+}
+
+.section h2{
+  color:#38bdf8;
+  margin-top:0;
+}
+
+.section h3{
+  color:#bae6fd;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:15px;
+}
+
+.card{
+  background:#111827;
+  padding:18px;
+  border-radius:14px;
+  text-align:center;
+  box-shadow:0 8px 20px rgba(0,0,0,0.2);
+  border:1px solid #1f2937;
+}
+
+.card h3{
+  color:#38bdf8;
+}
+
+.icon{
+  font-size:34px;
+}
+
+.info-box{
+  background:#0f172a;
+  border-left:4px solid #38bdf8;
+  padding:14px;
+  border-radius:8px;
+  margin-top:12px;
+}
+
+.team-card{
+  text-align:left;
+}
+
+.team-card span{
+  color:#94a3b8;
+  font-size:13px;
+}
+
+.live{
+  background:#111827;
+  padding:22px;
+  border-radius:14px;
+  max-width:750px;
+  margin:auto;
+}
+
+.value{
+  color:#22c55e;
+  font-weight:bold;
+}
+
+.status{
+  padding:12px;
+  border-radius:8px;
+  margin-top:15px;
+  background:#064e3b;
+  color:#bbf7d0;
+  font-weight:bold;
+}
+
+.connection-status{
+  padding:10px;
+  border-radius:8px;
+  background:#1e293b;
+  color:#cbd5e1;
+  margin:12px 0;
+  font-weight:bold;
+}
+
+.reading-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+  gap:12px;
+  margin-top:15px;
+}
+
+.reading-card{
+  background:#0f172a;
+  border:1px solid #1f2937;
+  border-radius:12px;
+  padding:14px;
+  text-align:center;
+}
+
+.reading-card span{
+  display:block;
+  margin-top:8px;
+  font-size:22px;
+  color:#22c55e;
+  font-weight:bold;
+}
+
+button{
+  padding:10px 15px;
+  background:#38bdf8;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+ul{
+  padding-left:22px;
+}
+
+footer{
+  text-align:center;
+  padding:18px;
+  background:#111827;
+  color:#94a3b8;
+  margin-top:20px;
+}
+
+@media(max-width:700px){
+  header{
+    flex-direction:column;
+    gap:10px;
+  }
+
+  nav{
+    text-align:center;
+  }
+
+  nav a{
+    display:inline-block;
+    margin:6px;
+  }
+
+  .hero h1{
+    font-size:32px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo-area">
+    <!-- Put the University of Bahrain logo image in the same folder as this HTML file -->
+    <img src="https://bahrainschoolsguide.com/wp-content/uploads/2020/12/uob.png" alt="University of Bahrain Logo">
+    <div>
+      <h1>Smart Helmet with Gas Sensors</h1>
+      <p>University of Bahrain | Senior Project ITCE 497</p>
+    </div>
+  </div>
+
+  <nav>
+    <a onclick="showPage('home')">Home</a>
+    <a onclick="showPage('abstract')">Abstract</a>
+    <a onclick="showPage('problem')">Problem</a>
+    <a onclick="showPage('design')">Design</a>
+    <a onclick="showPage('implementation')">Implementation</a>
+    <a onclick="showPage('testing')">Testing</a>
+    <a onclick="showPage('dashboard')">Dashboard</a>
+  </nav>
+</header>
+
+<!-- HOME PAGE -->
+<div id="home" class="page active">
+  <div class="hero">
+    <h1>Smart Safety Helmet</h1>
+    <p>
+      A real-time IoT safety system designed to protect workers in industrial environments by detecting harmful gases using ESP32, gas sensors, MQTT communication, and a live monitoring dashboard.
+    </p>
+    <div class="badges">
+      <span class="badge">ESP32</span>
+      <span class="badge">Gas Sensors</span>
+      <span class="badge">MQTT</span>
+      <span class="badge">Web Dashboard</span>
+      <span class="badge">Motor Fan Control</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Project Information</h2>
+    <p>
+      This project is a Smart Helmet with Gas Sensors developed as a senior project at the University of Bahrain, College of Information Technology, Department of Computer Engineering. The system aims to improve worker safety by continuously monitoring harmful gases and warning the user before the situation becomes dangerous.
+    </p>
+    <div class="info-box">
+      <b>Course:</b> ITCE 497 Senior Project<br>
+      <b>Academic Year:</b> 2025-2026 Semester 2<br>
+      <b>Supervisor:</b> Dr. Alaudeen Yousif Alomari
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Team Members</h2>
+    <div class="grid">
+      <div class="card team-card">
+        <h3>Maiy Adnan Mubarak Alatawi</h3>
+        <span>ID: 202107990</span>
+      </div>
+      <div class="card team-card">
+        <h3>Alanood Sulaiman Basheer</h3>
+        <span>ID: 202002407</span>
+      </div>
+      <div class="card team-card">
+        <h3>Hessa Talal Mohammed</h3>
+        <span>ID: 202102257</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ABSTRACT PAGE -->
+<div id="abstract" class="page">
+  <div class="section">
+    <h2>Abstract</h2>
+    <p>
+      Gas leaks in factories and industrial environments can cause dangerous accidents, fires, health problems, and financial losses. Therefore, this project presents a smart helmet with gas sensors to improve worker safety by continuously monitoring the surrounding environment and detecting dangerous gases in real time.
+    </p>
+    <p>
+      The system includes gas sensors, ESP32 microcontrollers, an OLED screen, buzzer alarm, a server running in a virtual machine, and a motor-fan system. The ESP32 processes the sensor readings and sends them to the server through Wi-Fi and MQTT. A dashboard website displays the readings and system states in real time.
+    </p>
+    <p>
+      The system works using three states: safe, warning, and danger. In warning mode, the buzzer is activated. In danger mode, a louder alarm and the motor fan turn on automatically.
+    </p>
+  </div>
+</div>
+
+<!-- PROBLEM PAGE -->
+<div id="problem" class="page">
+  <div class="section">
+    <h2>Problem Statement</h2>
+    <p>
+      Gas leaks are a serious problem in industrial environments because they can lead to injuries, fires, explosions, and financial losses. Some gases are colorless or scentless, which makes them hard for workers to detect manually. Because of this, continuous monitoring is important to protect both workers and facilities.
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>Project Objectives</h2>
+    <ul>
+      <li>Monitor gas levels continuously and in real time.</li>
+      <li>Warn the worker when dangerous gas levels are detected.</li>
+      <li>Display sensor readings on an OLED screen and web dashboard.</li>
+      <li>Send data through Wi-Fi using MQTT communication.</li>
+      <li>Activate a fan automatically when the system reaches danger state.</li>
+      <li>Support future expansion for multiple helmets.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Why This Project Is Important</h2>
+    <p>
+      The project is important because it provides early gas detection in a wearable form. Since workers can wear the helmet during working hours, the surrounding air can be monitored continuously, and the worker can receive alerts immediately when the system detects unsafe gas levels.
+    </p>
+  </div>
+</div>
+
+<!-- DESIGN PAGE -->
+<div id="design" class="page">
+  <div class="section">
+    <h2>System Design</h2>
+    <p>
+      The system is divided into two main parts: the helmet circuit and the motor fan circuit. The helmet collects sensor readings, processes them using ESP32, and sends the data to the server. The motor fan circuit receives control signals and turns the fan on when the system is in danger state.
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>Main Components</h2>
+    <div class="grid">
+      <div class="card">
+        <div class="icon">🧠</div>
+        <h3>ESP32</h3>
+        <p>Main controller used for sensor reading, processing, Wi-Fi, and MQTT communication.</p>
+      </div>
+      <div class="card">
+        <div class="icon">📟</div>
+        <h3>OLED Screen</h3>
+        <p>Displays live gas readings and system state to the worker.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🔊</div>
+        <h3>Buzzer</h3>
+        <p>Gives sound alerts during warning and danger states.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🌐</div>
+        <h3>Server</h3>
+        <p>Runs inside a virtual machine and supports MQTT and WebSocket communication.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🌀</div>
+        <h3>Motor Fan</h3>
+        <p>Turns on automatically in danger mode to help clear the air.</p>
+      </div>
+      <div class="card">
+        <div class="icon">⚡</div>
+        <h3>USB-C PD Module</h3>
+        <p>Provides stable power from a power bank to operate the helmet components.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Gas Sensors</h2>
+    <div class="grid">
+      <div class="card"><div class="icon">🔥</div><h3>MQ2</h3><p>Smoke and flammable gases.</p></div>
+      <div class="card"><div class="icon">⚠️</div><h3>MQ9</h3><p>Carbon monoxide and flammable gases.</p></div>
+      <div class="card"><div class="icon">☠️</div><h3>MQ136</h3><p>Hydrogen sulfide and sulfur-related gases.</p></div>
+      <div class="card"><div class="icon">🧪</div><h3>MQ137</h3><p>Ammonia gas detection.</p></div>
+      <div class="card"><div class="icon">🌫️</div><h3>MH-Z19C</h3><p>Carbon dioxide CO2 monitoring.</p></div>
+      <div class="card"><div class="icon">🫁</div><h3>SC4-O2</h3><p>Oxygen O2 monitoring.</p></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>System States</h2>
+    <p><b>Safe State:</b> The gas level is normal. The system displays the readings only.</p>
+    <p><b>Warning State:</b> The gas level is above the warning threshold. The buzzer is activated.</p>
+    <p><b>Danger State:</b> The gas level is dangerous. A louder alarm is activated and the fan turns on automatically.</p>
+  </div>
+</div>
+
+<!-- IMPLEMENTATION PAGE -->
+<div id="implementation" class="page">
+  <div class="section">
+    <h2>System Implementation</h2>
+    <p>
+      The implementation includes both hardware and software parts. The helmet circuit connects the sensors, OLED screen, buzzer, capacitor, voltage dividers, and power module to the ESP32. The motor circuit connects the ESP32, relay module, DC motor, battery pack, and diode to control the fan safely.
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>Helmet Hardware Implementation</h2>
+    <p>
+      The MQ sensors are connected to the ESP32 through voltage dividers to reduce the sensor output voltage to a safe level for the ESP32. The OLED screen uses I2C communication through SDA and SCL pins. The CO2 and O2 sensors use UART communication. The buzzer is connected to a digital pin to activate sound alerts when needed.
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>Server Implementation</h2>
+    <p>
+      The server was created using Oracle VirtualBox with an Ubuntu virtual machine. Mosquitto was installed as the MQTT broker. Port 1883 was used for MQTT communication, and port 9001 was used for WebSocket communication. The dashboard was created using HTML, CSS, and JavaScript to display real-time readings and system states.
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>Software Tools</h2>
+    <ul>
+      <li>Arduino IDE and C++ for ESP32 programming.</li>
+      <li>WiFi and PubSubClient libraries for MQTT communication.</li>
+      <li>Adafruit libraries for OLED display control.</li>
+      <li>Ubuntu Server VM with Mosquitto MQTT broker.</li>
+      <li>HTML, CSS, and JavaScript for the web dashboard.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- TESTING PAGE -->
+<div id="testing" class="page">
+  <div class="section">
+    <h2>Testing and Results</h2>
+    <p>
+      The system was tested in different stages to make sure that the hardware, software, server, and dashboard worked correctly. The tests included powering the system, sensor warm-up, server connection, dashboard state display, and motor fan control.
+    </p>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="icon">✅</div>
+      <h3>Safe Mode</h3>
+      <p>The system monitors and displays sensor values under normal conditions.</p>
+    </div>
+    <div class="card">
+      <div class="icon">⚠️</div>
+      <h3>Warning Mode</h3>
+      <p>The buzzer is activated when gas levels exceed the warning threshold.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🚨</div>
+      <h3>Danger Mode</h3>
+      <p>The fan and stronger alarm response are activated during dangerous gas levels.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🖥️</div>
+      <h3>Dashboard Testing</h3>
+      <p>The dashboard shows real-time readings and can monitor more than one helmet.</p>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD PAGE -->
+<div id="dashboard" class="page">
+  <div class="live">
+    <h2>Live Sensor Readings</h2>
+    <p>This page can receive live readings from the real server using MQTT WebSocket. If the server is not connected, the demo button can still be used for testing.</p>
+
+    <div class="connection-status" id="connectionStatus">MQTT Status: Connecting to server...</div>
+
+    <div class="info-box">
+      <b>Real Server Dashboard:</b><br>
+      <a href="http://192.168.8.137" target="_blank" style="color:#38bdf8; font-weight:bold;">Open Real Dashboard</a>
+      <p style="margin-bottom:0; color:#94a3b8;">If the dashboard does not open, make sure you are connected to the same Wi-Fi/network as the server.</p>
+    </div>
+
+    <iframe src="http://192.168.8.137" style="width:100%; height:420px; border:1px solid #334155; border-radius:12px; margin:18px 0; background:white;"></iframe>
+
+    <div class="reading-grid">
+      <div class="reading-card">MQ2 <span id="mq2">0</span></div>
+      <div class="reading-card">MQ9 <span id="mq9">0</span></div>
+      <div class="reading-card">MQ136 <span id="mq136">0</span></div>
+      <div class="reading-card">MQ137 <span id="mq137">0</span></div>
+      <div class="reading-card">CO2 <span id="co2">0</span></div>
+      <div class="reading-card">O2 <span id="o2">0%</span></div>
+    </div>
+
+    <div class="status" id="statusBox">System Status: Safe</div>
+    <br>
+    <button onclick="updateData()">Demo Refresh</button>
+  </div>
+</div>
+
+<footer>
+  Smart Helmet with Gas Sensors | University of Bahrain | Senior Project
+</footer>
+
+<script>
+const MQTT_SERVER = "ws://192.168.8.137:9001";
+
+// Change these topic names if your server uses different MQTT topics
+const SENSOR_TOPIC = "helmet_001/sensors";
+const STATE_TOPIC = "helmet_001/state";
+
+function showPage(pageId){
+  let pages = document.querySelectorAll('.page');
+  pages.forEach(page => page.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function setDashboardValues(data){
+  let mq2 = Number(data.mq2 || 0);
+  let mq9 = Number(data.mq9 || 0);
+  let mq136 = Number(data.mq136 || 0);
+  let mq137 = Number(data.mq137 || 0);
+  let co2 = Number(data.co2 || 0);
+  let o2 = Number(data.o2 || 0);
+
+  document.getElementById("mq2").innerText = mq2;
+  document.getElementById("mq9").innerText = mq9;
+  document.getElementById("mq136").innerText = mq136;
+  document.getElementById("mq137").innerText = mq137;
+  document.getElementById("co2").innerText = co2;
+  document.getElementById("o2").innerText = o2 + "%";
+
+  updateStatus(mq2, mq9, mq136, mq137, co2, o2, data.state);
+}
+
+function updateStatus(mq2, mq9, mq136, mq137, co2, o2, serverState){
+  let statusBox = document.getElementById("statusBox");
+  let state = serverState ? String(serverState).toLowerCase() : "";
+
+  if(state.includes("danger") || mq2 > 1500 || mq9 > 1500 || mq136 > 1500 || mq137 > 1500 || co2 > 2200 || o2 < 19){
+    statusBox.innerText = "System Status: Danger - Fan ON and Strong Alarm Activated";
+    statusBox.style.background = "#7f1d1d";
+    statusBox.style.color = "#fecaca";
+  }
+  else if(state.includes("warning") || mq2 > 900 || mq9 > 900 || mq136 > 900 || mq137 > 900 || co2 > 1500 || o2 < 21){
+    statusBox.innerText = "System Status: Warning - Buzzer Activated";
+    statusBox.style.background = "#78350f";
+    statusBox.style.color = "#fde68a";
+  }
+  else{
+    statusBox.innerText = "System Status: Safe - Normal Monitoring";
+    statusBox.style.background = "#064e3b";
+    statusBox.style.color = "#bbf7d0";
+  }
+}
+
+function updateData(){
+  setDashboardValues({
+    mq2: Math.floor(Math.random()*2000),
+    mq9: Math.floor(Math.random()*2000),
+    mq136: Math.floor(Math.random()*2000),
+    mq137: Math.floor(Math.random()*2000),
+    co2: Math.floor(Math.random()*3000),
+    o2: Math.floor(Math.random()*100)
+  });
+}
+
+function connectMQTT(){
+  let connectionStatus = document.getElementById("connectionStatus");
+
+  try{
+    const client = mqtt.connect(MQTT_SERVER);
+
+    client.on("connect", function(){
+      connectionStatus.innerText = "MQTT Status: Connected to real server";
+      connectionStatus.style.background = "#064e3b";
+      connectionStatus.style.color = "#bbf7d0";
+
+      client.subscribe(SENSOR_TOPIC);
+      client.subscribe(STATE_TOPIC);
+    });
+
+    client.on("message", function(topic, message){
+      let text = message.toString();
+
+      if(topic === STATE_TOPIC){
+        updateStatus(
+          Number(document.getElementById("mq2").innerText || 0),
+          Number(document.getElementById("mq9").innerText || 0),
+          Number(document.getElementById("mq136").innerText || 0),
+          Number(document.getElementById("mq137").innerText || 0),
+          Number(document.getElementById("co2").innerText || 0),
+          Number(String(document.getElementById("o2").innerText).replace("%","") || 0),
+          text
+        );
+        return;
+      }
+
+      try{
+        let data = JSON.parse(text);
+        setDashboardValues(data);
+      }
+      catch(error){
+        console.log("Message is not JSON:", text);
+      }
+    });
+
+    client.on("error", function(){
+      connectionStatus.innerText = "MQTT Status: Not connected - check server IP, port, or topic names";
+      connectionStatus.style.background = "#78350f";
+      connectionStatus.style.color = "#fde68a";
+    });
+  }
+  catch(error){
+    connectionStatus.innerText = "MQTT Status: Connection failed";
+    connectionStatus.style.background = "#7f1d1d";
+    connectionStatus.style.color = "#fecaca";
+  }
+}
+
+connectMQTT();
+updateData();
+</script>
+
+</body>
+</html>
