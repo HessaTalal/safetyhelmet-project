@@ -1,671 +1,1067 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Smart Helmet with Gas Sensors</title>
 
-<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+<title>Smart Helmet | Industrial Safety System</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
+
 *{
-  box-sizing:border-box;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
 }
 
 body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#0b1220;
-  color:white;
+    font-family:'Poppins',sans-serif;
+    background:#030712;
+    color:white;
+    overflow-x:hidden;
 }
+
+/* BACKGROUND */
+
+body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    background:
+    radial-gradient(circle at 20% 20%,#0ea5e922,transparent 25%),
+    radial-gradient(circle at 80% 0%,#2563eb22,transparent 30%),
+    radial-gradient(circle at bottom right,#38bdf822,transparent 30%);
+    z-index:-3;
+}
+
+/* GLOW ORBS */
+
+.glow-orb{
+    position:fixed;
+    border-radius:50%;
+    filter:blur(100px);
+    z-index:-2;
+    animation:moveGlow 10s infinite alternate ease-in-out;
+}
+
+.orb1{
+    width:350px;
+    height:350px;
+    background:#0ea5e955;
+    top:-100px;
+    left:-100px;
+}
+
+.orb2{
+    width:400px;
+    height:400px;
+    background:#2563eb55;
+    bottom:-120px;
+    right:-100px;
+}
+
+@keyframes moveGlow{
+
+    from{
+        transform:translateY(0px);
+    }
+
+    to{
+        transform:translateY(40px);
+    }
+}
+
+/* PARTICLES */
+
+.particles{
+    position:fixed;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    z-index:-1;
+}
+
+.particles span{
+    position:absolute;
+    width:4px;
+    height:4px;
+    background:#38bdf8;
+    border-radius:50%;
+    opacity:0.3;
+    animation:float 12s linear infinite;
+}
+
+@keyframes float{
+
+    from{
+        transform:translateY(100vh);
+    }
+
+    to{
+        transform:translateY(-10vh);
+    }
+}
+
+/* HEADER */
 
 header{
-  background:#111827;
-  padding:15px 25px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  position:sticky;
-  top:0;
-  z-index:10;
-  border-bottom:1px solid #1f2937;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:999;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:18px 50px;
+
+    background:rgba(3,7,18,0.6);
+    backdrop-filter:blur(14px);
+
+    border-bottom:1px solid rgba(255,255,255,0.06);
 }
 
-.logo-area{
-  display:flex;
-  align-items:center;
-  gap:12px;
+.logo{
+    display:flex;
+    align-items:center;
+    gap:15px;
 }
 
-.logo-area img{
-  width:48px;
-  height:48px;
-  border-radius:50%;
-  background:white;
-  padding:4px;
+.logo img{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    background:white;
+    padding:4px;
 }
 
-header h1{
-  color:#38bdf8;
-  font-size:18px;
-  margin:0;
+.logo-text h1{
+    font-family:'Orbitron',sans-serif;
+    font-size:18px;
+    color:#38bdf8;
 }
 
-header p{
-  margin:3px 0 0;
-  color:#94a3b8;
-  font-size:12px;
+.logo-text p{
+    color:#94a3b8;
+    font-size:12px;
+}
+
+nav{
+    display:flex;
+    gap:25px;
 }
 
 nav a{
-  color:white;
-  text-decoration:none;
-  margin-left:12px;
-  font-size:14px;
-  cursor:pointer;
+    text-decoration:none;
+    color:white;
+    font-size:14px;
+    transition:0.3s;
+    position:relative;
 }
 
 nav a:hover{
-  color:#38bdf8;
+    color:#38bdf8;
+    text-shadow:0 0 10px #38bdf8;
 }
 
-.page{
-  display:none;
-  padding:25px;
+nav a::after{
+    content:'';
+    position:absolute;
+    left:0;
+    bottom:-8px;
+    width:0%;
+    height:2px;
+    background:#38bdf8;
+    transition:0.3s;
 }
 
-.page.active{
-  display:block;
+nav a:hover::after{
+    width:100%;
 }
+
+/* HERO */
 
 .hero{
-  padding:65px 40px;
-  background:linear-gradient(135deg,#0ea5e9,#1e293b);
-  border-radius:0 0 18px 18px;
+    min-height:100vh;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+
+    padding:120px 8%;
+
+    position:relative;
+    overflow:hidden;
+}
+
+.hero::after{
+    content:'';
+    position:absolute;
+    inset:0;
+
+    background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+
+    background-size:40px 40px;
+
+    mask-image:linear-gradient(to bottom,rgba(0,0,0,1),transparent);
+}
+
+.hero-glow{
+    position:absolute;
+    width:600px;
+    height:600px;
+    border-radius:50%;
+    background:#0ea5e930;
+    filter:blur(120px);
+    top:-200px;
+    right:-150px;
 }
 
 .hero h1{
-  margin:0;
-  font-size:42px;
+    font-family:'Orbitron',sans-serif;
+    font-size:82px;
+    line-height:1.05;
+    max-width:900px;
+
+    background:linear-gradient(to right,#ffffff,#7dd3fc);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.typing{
+    margin-top:20px;
+    color:#38bdf8;
+    font-weight:600;
+    overflow:hidden;
+    white-space:nowrap;
+    border-right:3px solid #38bdf8;
+    width:0;
+    animation:
+    typing 4s steps(40,end) forwards,
+    blink 0.8s infinite;
+}
+
+@keyframes typing{
+
+    from{
+        width:0;
+    }
+
+    to{
+        width:100%;
+    }
+}
+
+@keyframes blink{
+
+    50%{
+        border-color:transparent;
+    }
 }
 
 .hero p{
-  font-size:18px;
-  max-width:800px;
-  line-height:1.6;
+    margin-top:25px;
+    max-width:760px;
+    font-size:18px;
+    line-height:1.9;
+    color:#cbd5e1;
 }
 
+/* BUTTONS */
+
+.hero-buttons{
+    margin-top:35px;
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    padding:15px 28px;
+    border-radius:14px;
+    text-decoration:none;
+    font-weight:600;
+    transition:0.35s;
+}
+
+.btn-primary{
+    background:linear-gradient(135deg,#0ea5e9,#2563eb);
+    color:white;
+    box-shadow:0 10px 30px rgba(14,165,233,0.35);
+}
+
+.btn-primary:hover{
+    transform:translateY(-5px);
+    box-shadow:0 15px 40px rgba(14,165,233,0.5);
+}
+
+.btn-secondary{
+    border:1px solid rgba(255,255,255,0.1);
+    background:rgba(255,255,255,0.04);
+    backdrop-filter:blur(8px);
+    color:white;
+}
+
+.btn-secondary:hover{
+    border-color:#38bdf8;
+    transform:translateY(-5px);
+}
+
+/* BADGES */
+
 .badges{
-  margin-top:20px;
+    margin-top:30px;
 }
 
 .badge{
-  display:inline-block;
-  background:#0f172a;
-  color:#bae6fd;
-  padding:8px 12px;
-  border-radius:20px;
-  margin:5px 5px 0 0;
-  font-size:13px;
+    display:inline-block;
+    margin:8px;
+    padding:10px 18px;
+
+    background:rgba(255,255,255,0.05);
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    border-radius:30px;
+
+    color:#dbeafe;
+
+    backdrop-filter:blur(10px);
 }
+
+/* SECTION */
 
 .section{
-  background:#111827;
-  padding:24px;
-  border-radius:14px;
-  margin-bottom:20px;
-  line-height:1.7;
-  box-shadow:0 8px 20px rgba(0,0,0,0.18);
+    padding:90px 8%;
 }
 
-.section h2{
-  color:#38bdf8;
-  margin-top:0;
+.section-title{
+    margin-bottom:40px;
 }
 
-.section h3{
-  color:#bae6fd;
+.section-title h2{
+    font-family:'Orbitron',sans-serif;
+    font-size:42px;
+    color:#38bdf8;
+
+    text-shadow:
+    0 0 10px #38bdf8,
+    0 0 20px #38bdf855;
 }
+
+.section-title p{
+    margin-top:12px;
+    color:#94a3b8;
+}
+
+/* GRID */
 
 .grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
-  gap:15px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
 }
 
+/* CARD */
+
 .card{
-  background:#111827;
-  padding:18px;
-  border-radius:14px;
-  text-align:center;
-  box-shadow:0 8px 20px rgba(0,0,0,0.2);
-  border:1px solid #1f2937;
+    position:relative;
+
+    background:rgba(255,255,255,0.04);
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(14px);
+
+    padding:30px;
+
+    border-radius:28px;
+
+    overflow:hidden;
+
+    transition:0.4s;
+}
+
+.card::after{
+    content:'';
+    position:absolute;
+    top:-100%;
+    left:-100%;
+    width:200%;
+    height:200%;
+
+    background:linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.08),
+    transparent
+    );
+
+    transform:rotate(25deg);
+
+    transition:0.8s;
+}
+
+.card:hover::after{
+    top:100%;
+    left:100%;
+}
+
+.card:hover{
+    transform:translateY(-12px);
+    border-color:#38bdf8;
+    box-shadow:0 0 40px rgba(56,189,248,0.18);
+}
+
+.card .icon{
+    font-size:45px;
+    margin-bottom:15px;
 }
 
 .card h3{
-  color:#38bdf8;
+    color:#38bdf8;
+    margin-bottom:12px;
 }
 
-.icon{
-  font-size:34px;
+.card p{
+    color:#cbd5e1;
+    line-height:1.8;
 }
 
-.info-box{
-  background:#0f172a;
-  border-left:4px solid #38bdf8;
-  padding:14px;
-  border-radius:8px;
-  margin-top:12px;
+/* TEAM */
+
+.team{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:25px;
 }
 
 .team-card{
-  text-align:left;
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.08);
+    padding:30px;
+    border-radius:24px;
+    transition:0.4s;
 }
 
-.team-card span{
-  color:#94a3b8;
-  font-size:13px;
+.team-card:hover{
+    transform:translateY(-10px);
+    border-color:#38bdf8;
+    box-shadow:0 0 35px rgba(56,189,248,0.18);
 }
 
-.live{
-  background:#111827;
-  padding:22px;
-  border-radius:14px;
-  max-width:750px;
-  margin:auto;
+.team-card h3{
+    color:#38bdf8;
 }
 
-.value{
-  color:#22c55e;
-  font-weight:bold;
+.team-card p{
+    margin-top:10px;
+    color:#94a3b8;
 }
+
+/* DASHBOARD */
+
+.dashboard{
+    position:relative;
+
+    background:rgba(255,255,255,0.04);
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    border-radius:30px;
+
+    padding:35px;
+
+    backdrop-filter:blur(14px);
+
+    overflow:hidden;
+}
+
+.dashboard::before{
+
+    content:'';
+
+    position:absolute;
+
+    inset:-2px;
+
+    background:
+    linear-gradient(
+    45deg,
+    #0ea5e9,
+    #2563eb,
+    #38bdf8,
+    #0ea5e9
+    );
+
+    background-size:400%;
+
+    animation:borderMove 8s linear infinite;
+
+    z-index:-1;
+
+    filter:blur(14px);
+}
+
+@keyframes borderMove{
+
+    0%{
+        background-position:0% 50%;
+    }
+
+    100%{
+        background-position:400% 50%;
+    }
+}
+
+.sensor{
+    margin:20px 0;
+}
+
+.sensor-top{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+}
+
+.sensor-top span:last-child{
+    color:#38bdf8;
+    font-weight:700;
+}
+
+.bar{
+    width:100%;
+    height:12px;
+    background:#111827;
+    border-radius:30px;
+    overflow:hidden;
+}
+
+.fill{
+    height:100%;
+    border-radius:30px;
+    background:linear-gradient(90deg,#0ea5e9,#38bdf8);
+    box-shadow:0 0 15px #38bdf8;
+    transition:1s;
+}
+
+/* STATUS */
 
 .status{
-  padding:12px;
-  border-radius:8px;
-  margin-top:15px;
-  background:#064e3b;
-  color:#bbf7d0;
-  font-weight:bold;
+    margin-top:30px;
+    padding:18px;
+    border-radius:18px;
+    font-weight:600;
+    background:#064e3b;
+    color:#bbf7d0;
+    animation:pulse 2s infinite;
 }
 
-.connection-status{
-  padding:10px;
-  border-radius:8px;
-  background:#1e293b;
-  color:#cbd5e1;
-  margin:12px 0;
-  font-weight:bold;
+.live-dot{
+    width:12px;
+    height:12px;
+    background:#22c55e;
+    border-radius:50%;
+    display:inline-block;
+    margin-right:8px;
+    animation:pulseDot 1s infinite;
 }
 
-.reading-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
-  gap:12px;
-  margin-top:15px;
+@keyframes pulseDot{
+
+    0%{
+        box-shadow:0 0 0 0 rgba(34,197,94,0.7);
+    }
+
+    70%{
+        box-shadow:0 0 0 12px rgba(34,197,94,0);
+    }
+
+    100%{
+        box-shadow:0 0 0 0 rgba(34,197,94,0);
+    }
 }
 
-.reading-card{
-  background:#0f172a;
-  border:1px solid #1f2937;
-  border-radius:12px;
-  padding:14px;
-  text-align:center;
+@keyframes pulse{
+
+    0%{
+        box-shadow:0 0 0 rgba(255,255,255,0);
+    }
+
+    50%{
+        box-shadow:0 0 35px rgba(255,255,255,0.15);
+    }
+
+    100%{
+        box-shadow:0 0 0 rgba(255,255,255,0);
+    }
 }
 
-.reading-card span{
-  display:block;
-  margin-top:8px;
-  font-size:22px;
-  color:#22c55e;
-  font-weight:bold;
+/* FLOAT BUTTON */
+
+.floating-btn{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+
+    width:60px;
+    height:60px;
+
+    border-radius:50%;
+
+    background:linear-gradient(135deg,#0ea5e9,#2563eb);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:white;
+    font-size:28px;
+
+    text-decoration:none;
+
+    box-shadow:0 10px 30px rgba(14,165,233,0.45);
+
+    transition:0.35s;
+
+    z-index:999;
 }
 
-button{
-  padding:10px 15px;
-  background:#38bdf8;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
-  font-weight:bold;
+.floating-btn:hover{
+    transform:translateY(-8px) scale(1.08);
 }
 
-ul{
-  padding-left:22px;
-}
+/* FOOTER */
 
 footer{
-  text-align:center;
-  padding:18px;
-  background:#111827;
-  color:#94a3b8;
-  margin-top:20px;
-}
-
-@media(max-width:700px){
-  header{
-    flex-direction:column;
-    gap:10px;
-  }
-
-  nav{
+    padding:40px;
     text-align:center;
-  }
-
-  nav a{
-    display:inline-block;
-    margin:6px;
-  }
-
-  .hero h1{
-    font-size:32px;
-  }
+    color:#94a3b8;
 }
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-track{
+    background:#020617;
+}
+
+::-webkit-scrollbar-thumb{
+    background:linear-gradient(#0ea5e9,#2563eb);
+    border-radius:20px;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+    header{
+        flex-direction:column;
+        gap:20px;
+        padding:20px;
+    }
+
+    nav{
+        flex-wrap:wrap;
+        justify-content:center;
+    }
+
+    .hero{
+        padding-top:180px;
+    }
+
+    .hero h1{
+        font-size:48px;
+    }
+}
+
 </style>
+
 </head>
 
 <body>
 
-<header>
-  <div class="logo-area">
-    <!-- Put the University of Bahrain logo image in the same folder as this HTML file -->
-    <img src="https://bahrainschoolsguide.com/wp-content/uploads/2020/12/uob.png" alt="University of Bahrain Logo">
-    <div>
-      <h1>Smart Helmet with Gas Sensors</h1>
-      <p>University of Bahrain | Senior Project ITCE 497</p>
-    </div>
-  </div>
+<div class="glow-orb orb1"></div>
+<div class="glow-orb orb2"></div>
 
-  <nav>
-    <a onclick="showPage('home')">Home</a>
-    <a onclick="showPage('abstract')">Abstract</a>
-    <a onclick="showPage('problem')">Problem</a>
-    <a onclick="showPage('design')">Design</a>
-    <a onclick="showPage('implementation')">Implementation</a>
-    <a onclick="showPage('testing')">Testing</a>
-    <a onclick="showPage('dashboard')">Dashboard</a>
-  </nav>
+<div class="particles">
+
+<span style="left:5%; animation-duration:12s;"></span>
+<span style="left:15%; animation-duration:9s;"></span>
+<span style="left:30%; animation-duration:14s;"></span>
+<span style="left:45%; animation-duration:10s;"></span>
+<span style="left:60%; animation-duration:13s;"></span>
+<span style="left:75%; animation-duration:11s;"></span>
+<span style="left:90%; animation-duration:15s;"></span>
+
+</div>
+
+<header>
+
+<div class="logo">
+
+<img src="https://bahrainschoolsguide.com/wp-content/uploads/2020/12/uob.png">
+
+<div class="logo-text">
+<h1>SMART HELMET</h1>
+<p>Industrial IoT Safety System</p>
+</div>
+
+</div>
+
+<nav>
+
+<a href="#home">Home</a>
+<a href="#about">About</a>
+<a href="#technology">Technology</a>
+<a href="#team">Team</a>
+<a href="#dashboard">Dashboard</a>
+
+</nav>
+
 </header>
 
-<!-- HOME PAGE -->
-<div id="home" class="page active">
-  <div class="hero">
-    <h1>Smart Safety Helmet</h1>
-    <p>
-      A real-time IoT safety system designed to protect workers in industrial environments by detecting harmful gases using ESP32, gas sensors, MQTT communication, and a live monitoring dashboard.
-    </p>
-    <div class="badges">
-      <span class="badge">ESP32</span>
-      <span class="badge">Gas Sensors</span>
-      <span class="badge">MQTT</span>
-      <span class="badge">Web Dashboard</span>
-      <span class="badge">Motor Fan Control</span>
-    </div>
-  </div>
+<!-- HERO -->
 
-  <div class="section">
-    <h2>Project Information</h2>
-    <p>
-      This project is a Smart Helmet with Gas Sensors developed as a senior project at the University of Bahrain, College of Information Technology, Department of Computer Engineering. The system aims to improve worker safety by continuously monitoring harmful gases and warning the user before the situation becomes dangerous.
-    </p>
-    <div class="info-box">
-      <b>Course:</b> ITCE 497 Senior Project<br>
-      <b>Academic Year:</b> 2025-2026 Semester 2<br>
-      <b>Supervisor:</b> Dr. Alaudeen Yousif Alomari
-    </div>
-  </div>
+<section class="hero" id="home">
 
-  <div class="section">
-    <h2>Team Members</h2>
-    <div class="grid">
-      <div class="card team-card">
-        <h3>Maiy Adnan Mubarak Alatawi</h3>
-        <span>ID: 202107990</span>
-      </div>
-      <div class="card team-card">
-        <h3>Alanood Sulaiman Basheer</h3>
-        <span>ID: 202002407</span>
-      </div>
-      <div class="card team-card">
-        <h3>Hessa Talal Mohammed</h3>
-        <span>ID: 202102257</span>
-      </div>
-    </div>
-  </div>
+<div class="hero-glow"></div>
+
+<h1>
+Advanced Smart Helmet
+For Industrial Safety
+</h1>
+
+<div class="typing">
+Real-Time Industrial Safety Monitoring System
 </div>
 
-<!-- ABSTRACT PAGE -->
-<div id="abstract" class="page">
-  <div class="section">
-    <h2>Abstract</h2>
-    <p>
-      Gas leaks in factories and industrial environments can cause dangerous accidents, fires, health problems, and financial losses. Therefore, this project presents a smart helmet with gas sensors to improve worker safety by continuously monitoring the surrounding environment and detecting dangerous gases in real time.
-    </p>
-    <p>
-      The system includes gas sensors, ESP32 microcontrollers, an OLED screen, buzzer alarm, a server running in a virtual machine, and a motor-fan system. The ESP32 processes the sensor readings and sends them to the server through Wi-Fi and MQTT. A dashboard website displays the readings and system states in real time.
-    </p>
-    <p>
-      The system works using three states: safe, warning, and danger. In warning mode, the buzzer is activated. In danger mode, a louder alarm and the motor fan turn on automatically.
-    </p>
-  </div>
+<p>
+An intelligent IoT safety system designed to detect harmful gases in real time using ESP32, multiple gas sensors, MQTT communication, and automated emergency response systems.
+</p>
+
+<div class="hero-buttons">
+
+<a href="#about" class="btn btn-primary">
+Explore Project
+</a>
+
+<a href="#dashboard" class="btn btn-secondary">
+Live Dashboard
+</a>
+
 </div>
 
-<!-- PROBLEM PAGE -->
-<div id="problem" class="page">
-  <div class="section">
-    <h2>Problem Statement</h2>
-    <p>
-      Gas leaks are a serious problem in industrial environments because they can lead to injuries, fires, explosions, and financial losses. Some gases are colorless or scentless, which makes them hard for workers to detect manually. Because of this, continuous monitoring is important to protect both workers and facilities.
-    </p>
-  </div>
+<div class="badges">
 
-  <div class="section">
-    <h2>Project Objectives</h2>
-    <ul>
-      <li>Monitor gas levels continuously and in real time.</li>
-      <li>Warn the worker when dangerous gas levels are detected.</li>
-      <li>Display sensor readings on an OLED screen and web dashboard.</li>
-      <li>Send data through Wi-Fi using MQTT communication.</li>
-      <li>Activate a fan automatically when the system reaches danger state.</li>
-      <li>Support future expansion for multiple helmets.</li>
-    </ul>
-  </div>
+<span class="badge">ESP32</span>
+<span class="badge">MQTT</span>
+<span class="badge">Real-Time Monitoring</span>
+<span class="badge">Gas Detection</span>
+<span class="badge">Smart Alerts</span>
+<span class="badge">IoT Dashboard</span>
 
-  <div class="section">
-    <h2>Why This Project Is Important</h2>
-    <p>
-      The project is important because it provides early gas detection in a wearable form. Since workers can wear the helmet during working hours, the surrounding air can be monitored continuously, and the worker can receive alerts immediately when the system detects unsafe gas levels.
-    </p>
-  </div>
 </div>
 
-<!-- DESIGN PAGE -->
-<div id="design" class="page">
-  <div class="section">
-    <h2>System Design</h2>
-    <p>
-      The system is divided into two main parts: the helmet circuit and the motor fan circuit. The helmet collects sensor readings, processes them using ESP32, and sends the data to the server. The motor fan circuit receives control signals and turns the fan on when the system is in danger state.
-    </p>
-  </div>
+</section>
 
-  <div class="section">
-    <h2>Main Components</h2>
-    <div class="grid">
-      <div class="card">
-        <div class="icon">🧠</div>
-        <h3>ESP32</h3>
-        <p>Main controller used for sensor reading, processing, Wi-Fi, and MQTT communication.</p>
-      </div>
-      <div class="card">
-        <div class="icon">📟</div>
-        <h3>OLED Screen</h3>
-        <p>Displays live gas readings and system state to the worker.</p>
-      </div>
-      <div class="card">
-        <div class="icon">🔊</div>
-        <h3>Buzzer</h3>
-        <p>Gives sound alerts during warning and danger states.</p>
-      </div>
-      <div class="card">
-        <div class="icon">🌐</div>
-        <h3>Server</h3>
-        <p>Runs inside a virtual machine and supports MQTT and WebSocket communication.</p>
-      </div>
-      <div class="card">
-        <div class="icon">🌀</div>
-        <h3>Motor Fan</h3>
-        <p>Turns on automatically in danger mode to help clear the air.</p>
-      </div>
-      <div class="card">
-        <div class="icon">⚡</div>
-        <h3>USB-C PD Module</h3>
-        <p>Provides stable power from a power bank to operate the helmet components.</p>
-      </div>
-    </div>
-  </div>
+<!-- ABOUT -->
 
-  <div class="section">
-    <h2>Gas Sensors</h2>
-    <div class="grid">
-      <div class="card"><div class="icon">🔥</div><h3>MQ2</h3><p>Smoke and flammable gases.</p></div>
-      <div class="card"><div class="icon">⚠️</div><h3>MQ9</h3><p>Carbon monoxide and flammable gases.</p></div>
-      <div class="card"><div class="icon">☠️</div><h3>MQ136</h3><p>Hydrogen sulfide and sulfur-related gases.</p></div>
-      <div class="card"><div class="icon">🧪</div><h3>MQ137</h3><p>Ammonia gas detection.</p></div>
-      <div class="card"><div class="icon">🌫️</div><h3>MH-Z19C</h3><p>Carbon dioxide CO2 monitoring.</p></div>
-      <div class="card"><div class="icon">🫁</div><h3>SC4-O2</h3><p>Oxygen O2 monitoring.</p></div>
-    </div>
-  </div>
+<section class="section" id="about">
 
-  <div class="section">
-    <h2>System States</h2>
-    <p><b>Safe State:</b> The gas level is normal. The system displays the readings only.</p>
-    <p><b>Warning State:</b> The gas level is above the warning threshold. The buzzer is activated.</p>
-    <p><b>Danger State:</b> The gas level is dangerous. A louder alarm is activated and the fan turns on automatically.</p>
-  </div>
+<div class="section-title">
+
+<h2>Project Overview</h2>
+
+<p>
+Smart wearable protection system for hazardous industrial environments.
+</p>
+
 </div>
 
-<!-- IMPLEMENTATION PAGE -->
-<div id="implementation" class="page">
-  <div class="section">
-    <h2>System Implementation</h2>
-    <p>
-      The implementation includes both hardware and software parts. The helmet circuit connects the sensors, OLED screen, buzzer, capacitor, voltage dividers, and power module to the ESP32. The motor circuit connects the ESP32, relay module, DC motor, battery pack, and diode to control the fan safely.
-    </p>
-  </div>
+<div class="grid">
 
-  <div class="section">
-    <h2>Helmet Hardware Implementation</h2>
-    <p>
-      The MQ sensors are connected to the ESP32 through voltage dividers to reduce the sensor output voltage to a safe level for the ESP32. The OLED screen uses I2C communication through SDA and SCL pins. The CO2 and O2 sensors use UART communication. The buzzer is connected to a digital pin to activate sound alerts when needed.
-    </p>
-  </div>
-
-  <div class="section">
-    <h2>Server Implementation</h2>
-    <p>
-      The server was created using Oracle VirtualBox with an Ubuntu virtual machine. Mosquitto was installed as the MQTT broker. Port 1883 was used for MQTT communication, and port 9001 was used for WebSocket communication. The dashboard was created using HTML, CSS, and JavaScript to display real-time readings and system states.
-    </p>
-  </div>
-
-  <div class="section">
-    <h2>Software Tools</h2>
-    <ul>
-      <li>Arduino IDE and C++ for ESP32 programming.</li>
-      <li>WiFi and PubSubClient libraries for MQTT communication.</li>
-      <li>Adafruit libraries for OLED display control.</li>
-      <li>Ubuntu Server VM with Mosquitto MQTT broker.</li>
-      <li>HTML, CSS, and JavaScript for the web dashboard.</li>
-    </ul>
-  </div>
+<div class="card">
+<div class="icon">🧠</div>
+<h3>Intelligent Monitoring</h3>
+<p>
+The helmet continuously monitors dangerous gases and analyzes environmental conditions in real time.
+</p>
 </div>
 
-<!-- TESTING PAGE -->
-<div id="testing" class="page">
-  <div class="section">
-    <h2>Testing and Results</h2>
-    <p>
-      The system was tested in different stages to make sure that the hardware, software, server, and dashboard worked correctly. The tests included powering the system, sensor warm-up, server connection, dashboard state display, and motor fan control.
-    </p>
-  </div>
-
-  <div class="grid">
-    <div class="card">
-      <div class="icon">✅</div>
-      <h3>Safe Mode</h3>
-      <p>The system monitors and displays sensor values under normal conditions.</p>
-    </div>
-    <div class="card">
-      <div class="icon">⚠️</div>
-      <h3>Warning Mode</h3>
-      <p>The buzzer is activated when gas levels exceed the warning threshold.</p>
-    </div>
-    <div class="card">
-      <div class="icon">🚨</div>
-      <h3>Danger Mode</h3>
-      <p>The fan and stronger alarm response are activated during dangerous gas levels.</p>
-    </div>
-    <div class="card">
-      <div class="icon">🖥️</div>
-      <h3>Dashboard Testing</h3>
-      <p>The dashboard shows real-time readings and can monitor more than one helmet.</p>
-    </div>
-  </div>
+<div class="card">
+<div class="icon">🚨</div>
+<h3>Emergency Alerts</h3>
+<p>
+Automatic warning systems activate buzzers and emergency responses when danger levels are detected.
+</p>
 </div>
 
-<!-- DASHBOARD PAGE -->
-<div id="dashboard" class="page">
-  <div class="live">
-    <h2>Live Sensor Readings</h2>
-    <p>This page can receive live readings from the real server using MQTT WebSocket. If the server is not connected, the demo button can still be used for testing.</p>
-
-    <div class="connection-status" id="connectionStatus">MQTT Status: Connecting to server...</div>
-
-    <div class="info-box">
-      <b>Real Server Dashboard:</b><br>
-      <a href="http://192.168.8.137" target="_blank" style="color:#38bdf8; font-weight:bold;">Open Real Dashboard</a>
-      <p style="margin-bottom:0; color:#94a3b8;">If the dashboard does not open, make sure you are connected to the same Wi-Fi/network as the server.</p>
-    </div>
-
-    <iframe src="http://192.168.8.137" style="width:100%; height:420px; border:1px solid #334155; border-radius:12px; margin:18px 0; background:white;"></iframe>
-
-    <div class="reading-grid">
-      <div class="reading-card">MQ2 <span id="mq2">0</span></div>
-      <div class="reading-card">MQ9 <span id="mq9">0</span></div>
-      <div class="reading-card">MQ136 <span id="mq136">0</span></div>
-      <div class="reading-card">MQ137 <span id="mq137">0</span></div>
-      <div class="reading-card">CO2 <span id="co2">0</span></div>
-      <div class="reading-card">O2 <span id="o2">0%</span></div>
-    </div>
-
-    <div class="status" id="statusBox">System Status: Safe</div>
-    <br>
-    <button onclick="updateData()">Demo Refresh</button>
-  </div>
+<div class="card">
+<div class="icon">🌐</div>
+<h3>Live Dashboard</h3>
+<p>
+Sensor data is transmitted through MQTT and displayed instantly on a web dashboard.
+</p>
 </div>
+
+</div>
+
+</section>
+
+<!-- TECHNOLOGY -->
+
+<section class="section" id="technology">
+
+<div class="section-title">
+
+<h2>Technology Stack</h2>
+
+<p>
+Hardware and software technologies used in the system.
+</p>
+
+</div>
+
+<div class="grid">
+
+<div class="card">
+<div class="icon">🔥</div>
+<h3>MQ2</h3>
+<p>Smoke and flammable gas monitoring.</p>
+</div>
+
+<div class="card">
+<div class="icon">⚠️</div>
+<h3>MQ9</h3>
+<p>Carbon monoxide detection sensor.</p>
+</div>
+
+<div class="card">
+<div class="icon">☠️</div>
+<h3>MQ136</h3>
+<p>Hydrogen sulfide gas detection.</p>
+</div>
+
+<div class="card">
+<div class="icon">🧪</div>
+<h3>MQ137</h3>
+<p>Ammonia gas monitoring system.</p>
+</div>
+
+<div class="card">
+<div class="icon">🌫️</div>
+<h3>MH-Z19C</h3>
+<p>Carbon dioxide monitoring sensor.</p>
+</div>
+
+<div class="card">
+<div class="icon">🫁</div>
+<h3>SC4-O2</h3>
+<p>Oxygen concentration monitoring.</p>
+</div>
+
+</div>
+
+</section>
+
+<!-- TEAM -->
+
+<section class="section" id="team">
+
+<div class="section-title">
+
+<h2>Development Team</h2>
+
+<p>
+University of Bahrain — College of Information Technology
+</p>
+
+</div>
+
+<div class="team">
+
+<div class="team-card">
+<h3>Maiy Adnan Mubarak Alatawi</h3>
+<p>202107990@stu.uob.edu.bh</p>
+</div>
+
+<div class="team-card">
+<h3>Alanood Sulaiman Basheer</h3>
+<p>202002407@stu.uob.edu.bh</p>
+</div>
+
+<div class="team-card">
+<h3>Hessa Talal Mohammed</h3>
+<p>202102257@stu.uob.edu.bh</p>
+</div>
+
+</div>
+
+</section>
+
+<!-- DASHBOARD -->
+
+<section class="section" id="dashboard">
+
+<div class="section-title">
+
+<h2>Live Monitoring Dashboard</h2>
+
+<p>
+Real-time environmental gas monitoring system.
+</p>
+
+</div>
+
+<div class="dashboard">
+
+<div class="sensor">
+
+<div class="sensor-top">
+<span>MQ2 Sensor</span>
+<span id="mq2Text">0%</span>
+</div>
+
+<div class="bar">
+<div class="fill" id="mq2"></div>
+</div>
+
+</div>
+
+<div class="sensor">
+
+<div class="sensor-top">
+<span>MQ9 Sensor</span>
+<span id="mq9Text">0%</span>
+</div>
+
+<div class="bar">
+<div class="fill" id="mq9"></div>
+</div>
+
+</div>
+
+<div class="sensor">
+
+<div class="sensor-top">
+<span>CO2 Sensor</span>
+<span id="co2Text">0%</span>
+</div>
+
+<div class="bar">
+<div class="fill" id="co2"></div>
+</div>
+
+</div>
+
+<div class="sensor">
+
+<div class="sensor-top">
+<span>O2 Sensor</span>
+<span id="o2Text">0%</span>
+</div>
+
+<div class="bar">
+<div class="fill" id="o2"></div>
+</div>
+
+</div>
+
+<div class="status" id="statusBox">
+<span class="live-dot"></span>
+SAFE MODE — All systems operating normally.
+</div>
+
+</div>
+
+</section>
 
 <footer>
-  Smart Helmet with Gas Sensors | University of Bahrain | Senior Project
+
+Smart Helmet with Gas Sensors — Senior Project 2026
+
 </footer>
 
+<a href="#home" class="floating-btn">
+↑
+</a>
+
 <script>
-const MQTT_SERVER = "ws://192.168.8.137:9001";
 
-// Change these topic names if your server uses different MQTT topics
-const SENSOR_TOPIC = "helmet_001/sensors";
-const STATE_TOPIC = "helmet_001/state";
+function randomValue(){
 
-function showPage(pageId){
-  let pages = document.querySelectorAll('.page');
-  pages.forEach(page => page.classList.remove('active'));
-  document.getElementById(pageId).classList.add('active');
-  window.scrollTo(0,0);
+    return Math.floor(Math.random()*100);
 }
 
-function setDashboardValues(data){
-  let mq2 = Number(data.mq2 || 0);
-  let mq9 = Number(data.mq9 || 0);
-  let mq136 = Number(data.mq136 || 0);
-  let mq137 = Number(data.mq137 || 0);
-  let co2 = Number(data.co2 || 0);
-  let o2 = Number(data.o2 || 0);
+function updateDashboard(){
 
-  document.getElementById("mq2").innerText = mq2;
-  document.getElementById("mq9").innerText = mq9;
-  document.getElementById("mq136").innerText = mq136;
-  document.getElementById("mq137").innerText = mq137;
-  document.getElementById("co2").innerText = co2;
-  document.getElementById("o2").innerText = o2 + "%";
+    let mq2 = randomValue();
+    let mq9 = randomValue();
+    let co2 = randomValue();
+    let o2 = randomValue();
 
-  updateStatus(mq2, mq9, mq136, mq137, co2, o2, data.state);
+    document.getElementById("mq2").style.width = mq2 + "%";
+    document.getElementById("mq9").style.width = mq9 + "%";
+    document.getElementById("co2").style.width = co2 + "%";
+    document.getElementById("o2").style.width = o2 + "%";
+
+    document.getElementById("mq2Text").innerText = mq2 + "%";
+    document.getElementById("mq9Text").innerText = mq9 + "%";
+    document.getElementById("co2Text").innerText = co2 + "%";
+    document.getElementById("o2Text").innerText = o2 + "%";
+
+    let status = document.getElementById("statusBox");
+
+    if(mq2 > 75 || mq9 > 75 || co2 > 75 || o2 < 25){
+
+        status.innerHTML =
+        "🚨 DANGER MODE — Emergency fan and alarm activated.";
+
+        status.style.background = "#7f1d1d";
+        status.style.color = "#fecaca";
+    }
+
+    else if(mq2 > 50 || mq9 > 50 || co2 > 50 || o2 < 40){
+
+        status.innerHTML =
+        "⚠️ WARNING MODE — Hazard levels increasing.";
+
+        status.style.background = "#78350f";
+        status.style.color = "#fde68a";
+    }
+
+    else{
+
+        status.innerHTML =
+        '<span class="live-dot"></span>SAFE MODE — All systems operating normally.';
+
+        status.style.background = "#064e3b";
+        status.style.color = "#bbf7d0";
+    }
 }
 
-function updateStatus(mq2, mq9, mq136, mq137, co2, o2, serverState){
-  let statusBox = document.getElementById("statusBox");
-  let state = serverState ? String(serverState).toLowerCase() : "";
+setInterval(updateDashboard,2000);
 
-  if(state.includes("danger") || mq2 > 1500 || mq9 > 1500 || mq136 > 1500 || mq137 > 1500 || co2 > 2200 || o2 < 19){
-    statusBox.innerText = "System Status: Danger - Fan ON and Strong Alarm Activated";
-    statusBox.style.background = "#7f1d1d";
-    statusBox.style.color = "#fecaca";
-  }
-  else if(state.includes("warning") || mq2 > 900 || mq9 > 900 || mq136 > 900 || mq137 > 900 || co2 > 1500 || o2 < 21){
-    statusBox.innerText = "System Status: Warning - Buzzer Activated";
-    statusBox.style.background = "#78350f";
-    statusBox.style.color = "#fde68a";
-  }
-  else{
-    statusBox.innerText = "System Status: Safe - Normal Monitoring";
-    statusBox.style.background = "#064e3b";
-    statusBox.style.color = "#bbf7d0";
-  }
-}
+updateDashboard();
 
-function updateData(){
-  setDashboardValues({
-    mq2: Math.floor(Math.random()*2000),
-    mq9: Math.floor(Math.random()*2000),
-    mq136: Math.floor(Math.random()*2000),
-    mq137: Math.floor(Math.random()*2000),
-    co2: Math.floor(Math.random()*3000),
-    o2: Math.floor(Math.random()*100)
-  });
-}
-
-function connectMQTT(){
-  let connectionStatus = document.getElementById("connectionStatus");
-
-  try{
-    const client = mqtt.connect(MQTT_SERVER);
-
-    client.on("connect", function(){
-      connectionStatus.innerText = "MQTT Status: Connected to real server";
-      connectionStatus.style.background = "#064e3b";
-      connectionStatus.style.color = "#bbf7d0";
-
-      client.subscribe(SENSOR_TOPIC);
-      client.subscribe(STATE_TOPIC);
-    });
-
-    client.on("message", function(topic, message){
-      let text = message.toString();
-
-      if(topic === STATE_TOPIC){
-        updateStatus(
-          Number(document.getElementById("mq2").innerText || 0),
-          Number(document.getElementById("mq9").innerText || 0),
-          Number(document.getElementById("mq136").innerText || 0),
-          Number(document.getElementById("mq137").innerText || 0),
-          Number(document.getElementById("co2").innerText || 0),
-          Number(String(document.getElementById("o2").innerText).replace("%","") || 0),
-          text
-        );
-        return;
-      }
-
-      try{
-        let data = JSON.parse(text);
-        setDashboardValues(data);
-      }
-      catch(error){
-        console.log("Message is not JSON:", text);
-      }
-    });
-
-    client.on("error", function(){
-      connectionStatus.innerText = "MQTT Status: Not connected - check server IP, port, or topic names";
-      connectionStatus.style.background = "#78350f";
-      connectionStatus.style.color = "#fde68a";
-    });
-  }
-  catch(error){
-    connectionStatus.innerText = "MQTT Status: Connection failed";
-    connectionStatus.style.background = "#7f1d1d";
-    connectionStatus.style.color = "#fecaca";
-  }
-}
-
-connectMQTT();
-updateData();
 </script>
 
 </body>
