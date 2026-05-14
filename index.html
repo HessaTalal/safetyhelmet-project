@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -1066,103 +1068,366 @@ footer{
 }
 
 
-/* FUTURE WORK PREMIUM */
+/* HERO ELECTRONICS PRODUCT LANDING OVERRIDE */
 
-#future .grid{
+.hero{
+    min-height:100vh;
     display:grid;
-    grid-template-columns:1fr;
-    gap:38px;
-}
-
-#future .card{
+    grid-template-columns:1.05fr 0.95fr;
+    align-items:center;
+    gap:48px;
+    padding:130px 6% 90px;
     position:relative;
-    padding:42px 34px;
-    border-radius:38px;
-
-    background:
-    linear-gradient(
-        145deg,
-        rgba(255,255,255,0.06),
-        rgba(255,255,255,0.02)
-    );
-
-    border:1px solid rgba(255,255,255,0.08);
-
-    backdrop-filter:blur(18px);
-
     overflow:hidden;
-
-    box-shadow:
-    0 0 40px rgba(56,189,248,0.08);
-
-    transition:0.45s ease;
 }
 
-#future .card::before{
+.hero::before{
     content:'';
     position:absolute;
-    top:0;
-    right:-120px;
-    width:320px;
-    height:100%;
-    background:linear-gradient(
-        180deg,
-        rgba(56,189,248,0.08),
-        transparent
-    );
-
-    transform:skewX(-25deg);
+    inset:0;
+    background:
+    linear-gradient(90deg, rgba(56,189,248,0.08) 1px, transparent 1px),
+    linear-gradient(rgba(56,189,248,0.06) 1px, transparent 1px);
+    background-size:55px 55px;
+    mask-image:radial-gradient(circle at 70% 45%, black, transparent 70%);
+    pointer-events:none;
 }
 
-#future .card:hover{
-    transform:translateY(-10px);
-    border-color:#38bdf8;
-
-    box-shadow:
-    0 0 45px rgba(56,189,248,0.18);
+.hero-content{
+    position:relative;
+    z-index:2;
 }
 
-#future .icon{
-    font-size:60px;
-    margin-bottom:28px;
-
-    filter:
-    drop-shadow(0 0 18px rgba(56,189,248,0.35));
+.product-kicker{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 18px;
+    border-radius:999px;
+    background:rgba(56,189,248,0.10);
+    border:1px solid rgba(56,189,248,0.35);
+    color:#7dd3fc;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    box-shadow:0 0 25px rgba(56,189,248,0.14);
 }
 
-#future .card h3{
-    font-size:26px;
+.product-kicker::before{
+    content:'';
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:#22c55e;
+    box-shadow:0 0 14px #22c55e;
+}
+
+.hero h1{
+    margin-top:26px;
+    font-family:'Orbitron',sans-serif;
+    font-size:clamp(48px,7vw,96px);
+    line-height:0.96;
+    max-width:900px;
+    background:linear-gradient(110deg,#ffffff 0%,#bae6fd 45%,#38bdf8 100%);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    text-shadow:0 0 45px rgba(56,189,248,0.18);
+    position:relative;
+    z-index:1;
+}
+
+.hero h1 span{
+    display:block;
+    font-size:clamp(34px,5vw,70px);
     color:#38bdf8;
-    margin-bottom:22px;
-    font-weight:700;
 }
 
-#future .card p{
-    font-size:19px;
-    line-height:2;
-    color:#d1d5db;
+.typing{
+    margin-top:22px;
+    color:#38bdf8;
+    font-weight:700;
+    font-size:18px;
+    overflow:hidden;
+    white-space:nowrap;
+    border-right:3px solid #38bdf8;
+    width:0;
+    animation:
+    typing 4s steps(48,end) forwards,
+    blink 0.8s infinite;
+    position:relative;
+    z-index:1;
+}
+
+.hero p{
+    margin-top:24px;
+    max-width:760px;
+    font-size:18px;
+    line-height:1.9;
+    color:#cbd5e1;
+    position:relative;
+    z-index:1;
+}
+
+.hero-buttons{
+    margin-top:34px;
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+    position:relative;
+    z-index:2;
+}
+
+.btn-primary{
+    background:linear-gradient(135deg,#38bdf8,#2563eb);
+    box-shadow:0 18px 45px rgba(56,189,248,0.32);
+}
+
+.btn-primary::after{
+    content:' →';
+}
+
+.btn-secondary{
+    border:1px solid rgba(56,189,248,0.30);
+    background:rgba(56,189,248,0.06);
+}
+
+.product-stats{
+    margin-top:34px;
+    display:grid;
+    grid-template-columns:repeat(3,minmax(120px,1fr));
+    gap:16px;
+    max-width:650px;
+    position:relative;
+    z-index:2;
+}
+
+.product-stat{
+    padding:18px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.045);
+    border:1px solid rgba(255,255,255,0.08);
+    backdrop-filter:blur(12px);
+}
+
+.product-stat strong{
+    display:block;
+    color:#ffffff;
+    font-size:24px;
+    font-family:'Orbitron',sans-serif;
+}
+
+.product-stat span{
+    display:block;
+    margin-top:6px;
+    color:#94a3b8;
+    font-size:12px;
+}
+
+.hero-product{
+    position:relative;
+    min-height:560px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:2;
+}
+
+.product-halo{
+    position:absolute;
+    width:460px;
+    height:460px;
+    border-radius:50%;
+    background:
+    radial-gradient(circle, rgba(56,189,248,0.35), transparent 58%),
+    conic-gradient(from 180deg, transparent, rgba(56,189,248,0.7), transparent, rgba(37,99,235,0.65), transparent);
+    filter:blur(0.5px);
+    animation:spinHalo 12s linear infinite;
+    opacity:0.75;
+}
+
+@keyframes spinHalo{
+    to{ transform:rotate(360deg); }
+}
+
+.product-card-3d{
+    width:min(430px,88vw);
+    min-height:480px;
+    border-radius:42px;
+    background:
+    linear-gradient(145deg,rgba(15,23,42,0.92),rgba(3,7,18,0.98)),
+    linear-gradient(90deg,rgba(56,189,248,0.18),transparent);
+    border:1px solid rgba(125,211,252,0.28);
+    box-shadow:
+    0 0 70px rgba(56,189,248,0.24),
+    inset 0 0 40px rgba(255,255,255,0.035);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+    animation:floatDevice 5s ease-in-out infinite;
+}
+
+.product-card-3d::before{
+    content:'';
+    position:absolute;
+    top:-45%;
+    left:-45%;
+    width:190%;
+    height:190%;
+    background:linear-gradient(120deg,transparent,rgba(255,255,255,0.12),transparent);
+    transform:rotate(28deg);
+    animation:shineMove 5.5s infinite;
+}
+
+@keyframes shineMove{
+    0%,45%{ transform:translateX(-40%) rotate(28deg); }
+    100%{ transform:translateX(45%) rotate(28deg); }
+}
+
+@keyframes floatDevice{
+    0%,100%{ transform:translateY(0px) rotate(-1deg); }
+    50%{ transform:translateY(-20px) rotate(1deg); }
+}
+
+.helmet-device{
+    width:250px;
+    height:250px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:135px;
+    background:
+    radial-gradient(circle at 35% 30%,rgba(255,255,255,0.28),transparent 28%),
+    linear-gradient(145deg,rgba(56,189,248,0.20),rgba(37,99,235,0.10));
+    border:1px solid rgba(125,211,252,0.30);
+    box-shadow:
+    0 0 50px rgba(56,189,248,0.25),
+    inset 0 0 50px rgba(56,189,248,0.08);
+    position:relative;
+    z-index:2;
+}
+
+.device-name{
+    margin-top:28px;
+    font-family:'Orbitron',sans-serif;
+    font-size:26px;
+    color:#e0f2fe;
+    letter-spacing:2px;
+    z-index:2;
+}
+
+.device-price{
+    margin-top:10px;
+    color:#38bdf8;
+    font-weight:800;
+    font-size:14px;
+    letter-spacing:1px;
+    z-index:2;
+}
+
+.device-chip{
+    position:absolute;
+    padding:11px 14px;
+    border-radius:999px;
+    background:rgba(3,7,18,0.78);
+    border:1px solid rgba(56,189,248,0.35);
+    color:#e0f2fe;
+    font-size:12px;
+    font-weight:700;
+    backdrop-filter:blur(10px);
+    box-shadow:0 0 28px rgba(56,189,248,0.14);
+    z-index:3;
+}
+
+.chip-one{ top:92px; left:5px; }
+.chip-two{ top:165px; right:-4px; }
+.chip-three{ bottom:130px; left:8px; }
+.chip-four{ bottom:70px; right:28px; }
+
+.badges{
+    margin-top:26px;
+    position:relative;
+    z-index:2;
+}
+
+.badge{
+    display:inline-block;
+    margin:7px;
+    padding:10px 17px;
+    background:rgba(56,189,248,0.07);
+    border:1px solid rgba(56,189,248,0.18);
+    border-radius:30px;
+    color:#dbeafe;
+    backdrop-filter:blur(10px);
+}
+
+.scroll-hint{
+    position:absolute;
+    bottom:24px;
+    left:50%;
+    transform:translateX(-50%);
+    color:#94a3b8;
+    font-size:12px;
+    letter-spacing:1px;
+    z-index:4;
+}
+
+@media(max-width:1050px){
+    .hero{
+        grid-template-columns:1fr;
+        padding-top:190px;
+    }
+
+    .hero-product{
+        min-height:470px;
+    }
+
+    .product-card-3d{
+        min-height:430px;
+    }
 }
 
 @media(max-width:700px){
-
-    #future .card{
-        padding:36px 28px;
-        border-radius:34px;
+    .product-stats{
+        grid-template-columns:1fr;
     }
 
-    #future .icon{
-        font-size:54px;
+    .typing{
+        white-space:normal;
+        animation:none;
+        width:auto;
+        border-right:none;
     }
 
-    #future .card h3{
-        font-size:24px;
+    .device-chip{
+        position:static;
+        margin:6px;
+        display:inline-block;
     }
 
-    #future .card p{
-        font-size:18px;
-        line-height:1.9;
+    .hero-product{
+        min-height:auto;
+        padding:30px 0;
     }
 
+    .product-card-3d{
+        padding:25px;
+        min-height:auto;
+    }
+
+    .helmet-device{
+        width:200px;
+        height:200px;
+        font-size:105px;
+    }
+
+    .scroll-hint{
+        display:none;
+    }
 }
 
 </style>
@@ -1203,27 +1468,67 @@ footer{
 <!-- HERO -->
 <section class="hero" id="home">
 <div class="hero-glow"></div>
-<h1 data-ar="خوذة ذكية مع حساسات الغاز" data-en="Smart Helmet with Gas Sensors">
-Smart Helmet with Gas Sensors
+
+<div class="hero-content">
+<div class="product-kicker" data-ar="جهاز سلامة ذكي قابل للشراء" data-en="Smart Safety Device">Smart Safety Device</div>
+
+<h1 data-ar="SMART HELMET" data-en="SMART HELMET">
+SMART HELMET
 </h1>
-<div class="typing" data-ar="نظام مراقبة السلامة الصناعية بالوقت الحقيقي" data-en="Real-Time Industrial Safety Monitoring System">
-Real-Time Industrial Safety Monitoring System
+
+<div class="typing" data-ar="تقنية سلامة صناعية من الجيل القادم" data-en="Next Generation Industrial Safety Technology">
+Next Generation Industrial Safety Technology
 </div>
-<p data-ar="نظام سلامة صناعي يعتمد على إنترنت الأشياء لاكتشاف الغازات الضارة بالوقت الحقيقي باستخدام ESP32 وحساسات متعددة واتصال MQTT مع استجابة طوارئ تلقائية." data-en="An IoT-based industrial safety system that detects harmful gases in real time using ESP32, multiple gas sensors, MQTT communication, and automatic emergency response.">
-An IoT-based industrial safety system that detects harmful gases in real time using ESP32, multiple gas sensors, MQTT communication, and automatic emergency response.
+
+<p data-ar="خوذة ذكية مصممة لحماية العمال في البيئات الصناعية. تكشف الغازات الضارة بالوقت الحقيقي، ترسل تنبيهات فورية، وتفعّل الاستجابة الطارئة تلقائيًا داخل جهاز واحد قابل للارتداء." data-en="Protect workers with real-time gas detection, smart alerts, and automatic emergency response — all inside one intelligent wearable device.">
+Protect workers with real-time gas detection, smart alerts, and automatic emergency response — all inside one intelligent wearable device.
 </p>
+
 <div class="hero-buttons">
-<a class="btn btn-primary" data-ar="استكشاف المشروع" data-en="Explore Project" href="#overview">Explore Project</a>
-<a class="btn btn-secondary" data-ar="لوحة التحكم المباشرة" data-en="Live Dashboard" href="#dashboard">Live Dashboard</a>
+<a class="btn btn-primary" data-ar="استكشف المميزات" data-en="Explore Features" href="#overview">Explore Features</a>
+<a class="btn btn-secondary" data-ar="شاهد العرض" data-en="Watch Demo" href="#dashboard">Watch Demo</a>
 </div>
+
+<div class="product-stats">
+<div class="product-stat">
+<strong>6+</strong>
+<span data-ar="حساسات ذكية" data-en="Smart Sensors">Smart Sensors</span>
+</div>
+<div class="product-stat">
+<strong>24/7</strong>
+<span data-ar="مراقبة مستمرة" data-en="Live Monitoring">Live Monitoring</span>
+</div>
+<div class="product-stat">
+<strong>IoT</strong>
+<span data-ar="اتصال لاسلكي" data-en="Wireless Connected">Wireless Connected</span>
+</div>
+</div>
+
 <div class="badges">
-<span class="badge" data-ar="جامعة البحرين" data-en="University of Bahrain">University of Bahrain</span>
-<span class="badge">ITCE 497</span>
+<span class="badge" data-ar="كشف الغازات" data-en="Gas Detection">Gas Detection</span>
+<span class="badge" data-ar="تنبيهات ذكية" data-en="Smart Alerts">Smart Alerts</span>
 <span class="badge">ESP32</span>
 <span class="badge">MQTT</span>
-<span class="badge" data-ar="كشف الغازات" data-en="Gas Detection">Gas Detection</span>
-<span class="badge" data-ar="لوحة تحكم بالوقت الحقيقي" data-en="Real-Time Dashboard">Real-Time Dashboard</span>
+<span class="badge" data-ar="استجابة طارئة" data-en="Emergency Response">Emergency Response</span>
 </div>
+</div>
+
+<div class="hero-product">
+<div class="product-halo"></div>
+
+<div class="device-chip chip-one" data-ar="⚡ استجابة فورية" data-en="⚡ Instant Alerts">⚡ Instant Alerts</div>
+<div class="device-chip chip-two" data-ar="📡 متصل بالإنترنت" data-en="📡 IoT Connected">📡 IoT Connected</div>
+<div class="device-chip chip-three" data-ar="🧪 كشف الغاز" data-en="🧪 Gas Detection">🧪 Gas Detection</div>
+<div class="device-chip chip-four" data-ar="🌀 تشغيل المروحة" data-en="🌀 Fan Control">🌀 Fan Control</div>
+
+<div class="product-card-3d">
+<div class="helmet-device">⛑️</div>
+<div class="device-name">SMART HELMET</div>
+<div class="device-price" data-ar="منتج سلامة صناعي ذكي" data-en="Industrial Smart Safety Product">Industrial Smart Safety Product</div>
+</div>
+</div>
+
+<div class="scroll-hint" data-ar="مرّر للأسفل لاكتشاف الجهاز" data-en="SCROLL TO DISCOVER THE DEVICE">SCROLL TO DISCOVER THE DEVICE</div>
 </section>
 <div class="video-showcase">
 <div class="section-title" style="text-align:center;">
@@ -1633,101 +1938,54 @@ The system was tested through hardware, software, dashboard, and full-system sce
 </div>
 </section>
 <!-- CONCLUSION -->
-
 <section class="section" id="future">
+<div class="section-title">
+<h2 data-ar="التطوير المستقبلي" data-en="Future Work">Future Work</h2>
+<p data-ar="على الرغم من أن النظام حقق هدفه الأساسي في مراقبة الغازات والتنبيه وتشغيل الاستجابة التلقائية، يمكن تطوير الخوذة الذكية مستقبلًا بإضافة خصائص أكثر تقدمًا لزيادة السلامة والاعتمادية في البيئات الصناعية."
+data-en="Although the system achieved its main goal of gas monitoring, alerting, and automatic response, the Smart Helmet can be improved in the future with more advanced features to increase safety and reliability in industrial environments.">
+Although the system achieved its main goal of gas monitoring, alerting, and automatic response, the Smart Helmet can be improved in the future with more advanced features to increase safety and reliability in industrial environments.
+</p>
+</div>
 
-    <div class="section-title">
-        <h2 data-ar="التطوير المستقبلي" data-en="Future Work">
-            Future Work
-        </h2>
+<div class="grid">
+<div class="card">
+<div class="icon">📍</div>
+<h3 data-ar="إضافة تتبع الموقع" data-en="GPS Location Tracking">GPS Location Tracking</h3>
+<p data-ar="إضافة GPS لتحديد موقع العامل أثناء حالات الخطر، مما يساعد المشرفين على الاستجابة بسرعة ومعرفة مكان العامل المتأثر داخل الموقع الصناعي."
+data-en="Add GPS to identify the worker’s location during dangerous situations, helping supervisors respond faster and locate the affected worker inside the industrial site.">
+Add GPS to identify the worker’s location during dangerous situations, helping supervisors respond faster and locate the affected worker inside the industrial site.
+</p>
+</div>
 
-        <p
-        data-ar="يمكن تطوير الخوذة الذكية مستقبلًا بإضافة تقنيات متقدمة لتحسين السلامة الصناعية ورفع كفاءة النظام واعتماديته."
-        data-en="The Smart Helmet can be further enhanced with advanced technologies to improve industrial safety, monitoring accuracy, and system intelligence.">
+<div class="card">
+<div class="icon">📱</div>
+<h3 data-ar="تطبيق هاتف ذكي" data-en="Mobile Application">Mobile Application</h3>
+<p data-ar="تطوير تطبيق للهاتف يعرض قراءات الحساسات والتنبيهات وحالة الخوذة بشكل مباشر، حتى يتمكن العامل أو المشرف من المتابعة بسهولة."
+data-en="Develop a mobile application that displays sensor readings, alerts, and helmet status in real time, allowing workers and supervisors to monitor the system easily.">
+Develop a mobile application that displays sensor readings, alerts, and helmet status in real time, allowing workers and supervisors to monitor the system easily.
+</p>
+</div>
 
-        The Smart Helmet can be further enhanced with advanced technologies to improve industrial safety, monitoring accuracy, and system intelligence.
+<div class="card">
+<div class="icon">🤖</div>
+<h3 data-ar="تحليل ذكي للبيانات" data-en="AI-Based Prediction">AI-Based Prediction</h3>
+<p data-ar="استخدام الذكاء الاصطناعي لتحليل قراءات الحساسات والتنبؤ بالحالات الخطرة قبل أن تصل مستويات الغاز إلى مرحلة الخطر."
+data-en="Use artificial intelligence to analyze sensor readings and predict dangerous conditions before gas levels reach a critical stage.">
+Use artificial intelligence to analyze sensor readings and predict dangerous conditions before gas levels reach a critical stage.
+</p>
+</div>
 
-        </p>
-    </div>
+<div class="card">
+<div class="icon">🔋</div>
+<h3 data-ar="تحسين البطارية والطاقة" data-en="Battery Optimization">Battery Optimization</h3>
+<p data-ar="تحسين استهلاك الطاقة وإضافة بطارية أكثر كفاءة حتى تعمل الخوذة لفترة أطول أثناء الاستخدام المستمر في بيئات العمل."
+data-en="Improve power consumption and add a more efficient battery so the helmet can operate for longer periods during continuous use in work environments.">
+Improve power consumption and add a more efficient battery so the helmet can operate for longer periods during continuous use in work environments.
+</p>
+</div>
 
-    <div class="grid">
-
-        <div class="card">
-            <div class="icon">🤖</div>
-            <h3 data-ar="التنبؤ بالذكاء الاصطناعي" data-en="AI-Based Prediction">
-                AI-Based Prediction
-            </h3>
-            <p
-            data-ar="قد تتضمن الإصدارات المستقبلية تقنيات ذكاء اصطناعي قادرة على تحليل بيانات الحساسات والتنبؤ بتسربات الغاز أو الحالات الخطرة قبل حدوثها."
-            data-en="Future versions may include artificial intelligence capable of analyzing sensor history and predicting dangerous gas leaks before they occur.">
-            Future versions may include artificial intelligence capable of analyzing sensor history and predicting dangerous gas leaks before they occur.
-            </p>
-        </div>
-
-        <div class="card">
-            <div class="icon">📍</div>
-            <h3 data-ar="تتبع المواقع GPS" data-en="GPS Tracking">
-                GPS Tracking
-            </h3>
-            <p
-            data-ar="يمكن دمج نظام GPS داخل الخوذة لمراقبة مواقع العمال بالوقت الحقيقي خاصة في البيئات الصناعية الكبيرة."
-            data-en="A GPS tracking module can be integrated into the helmet to monitor worker locations in real time, especially in large industrial environments.">
-            A GPS tracking module can be integrated into the helmet to monitor worker locations in real time, especially in large industrial environments.
-            </p>
-        </div>
-
-        <div class="card">
-            <div class="icon">☁️</div>
-            <h3 data-ar="قاعدة بيانات سحابية" data-en="Cloud Database">
-                Cloud Database
-            </h3>
-            <p
-            data-ar="يمكن للأنظمة المستقبلية تخزين قراءات الحساسات طويلة المدى في قواعد بيانات سحابية لتحليل السلامة الصناعية وإعداد التقارير."
-            data-en="Future systems may store long-term sensor readings in cloud databases for industrial safety analysis, reporting, and monitoring.">
-            Future systems may store long-term sensor readings in cloud databases for industrial safety analysis, reporting, and monitoring.
-            </p>
-        </div>
-
-        <div class="card">
-            <div class="icon">📱</div>
-            <h3 data-ar="تطبيق الهاتف المحمول" data-en="Mobile Application">
-                Mobile Application
-            </h3>
-            <p
-            data-ar="يمكن تطوير تطبيق هاتف ذكي لعرض بيانات الحساسات المباشرة واستقبال التنبيهات والإشعارات الفورية."
-            data-en="A mobile application may be developed to display live sensor readings and provide instant alerts and emergency notifications.">
-            A mobile application may be developed to display live sensor readings and provide instant alerts and emergency notifications.
-            </p>
-        </div>
-
-        <div class="card">
-            <div class="icon">🔋</div>
-            <h3 data-ar="تحسين البطارية" data-en="Battery Optimization">
-                Battery Optimization
-            </h3>
-            <p
-            data-ar="يمكن تحسين استهلاك الطاقة واستخدام بطاريات تدوم لفترات أطول لدعم التشغيل المستمر داخل البيئات الصناعية."
-            data-en="Power consumption may be optimized using longer-lasting batteries for continuous operation in industrial workplaces.">
-            Power consumption may be optimized using longer-lasting batteries for continuous operation in industrial workplaces.
-            </p>
-        </div>
-
-        <div class="card">
-            <div class="icon">🛰️</div>
-            <h3 data-ar="تكامل إنترنت الأشياء" data-en="Advanced IoT Integration">
-                Advanced IoT Integration
-            </h3>
-            <p
-            data-ar="يمكن ربط الخوذة مع أنظمة السلامة الصناعية الأخرى لإنشاء بيئة مراقبة ذكية ومتكاملة."
-            data-en="The helmet may be integrated with industrial IoT safety systems to create a fully connected smart monitoring environment.">
-            The helmet may be integrated with industrial IoT safety systems to create a fully connected smart monitoring environment.
-            </p>
-        </div>
-
-    </div>
-
+</div>
 </section>
-
 <!-- TEAM -->
 <section class="section" id="team">
 <div class="section-title">
@@ -1847,106 +2105,6 @@ body[dir="rtl"] .video-overlay{left:auto;right:20px}
 body[dir="rtl"] .floating-btn{right:auto;left:25px}
 body[dir="rtl"] .sensor-top{flex-direction:row-reverse}
 @media(max-width:1050px){.lang-toggle{top:145px;left:16px}}
-
-/* FUTURE WORK PREMIUM */
-
-#future .grid{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:38px;
-}
-
-#future .card{
-    position:relative;
-    padding:42px 34px;
-    border-radius:38px;
-
-    background:
-    linear-gradient(
-        145deg,
-        rgba(255,255,255,0.06),
-        rgba(255,255,255,0.02)
-    );
-
-    border:1px solid rgba(255,255,255,0.08);
-
-    backdrop-filter:blur(18px);
-
-    overflow:hidden;
-
-    box-shadow:
-    0 0 40px rgba(56,189,248,0.08);
-
-    transition:0.45s ease;
-}
-
-#future .card::before{
-    content:'';
-    position:absolute;
-    top:0;
-    right:-120px;
-    width:320px;
-    height:100%;
-    background:linear-gradient(
-        180deg,
-        rgba(56,189,248,0.08),
-        transparent
-    );
-
-    transform:skewX(-25deg);
-}
-
-#future .card:hover{
-    transform:translateY(-10px);
-    border-color:#38bdf8;
-
-    box-shadow:
-    0 0 45px rgba(56,189,248,0.18);
-}
-
-#future .icon{
-    font-size:60px;
-    margin-bottom:28px;
-
-    filter:
-    drop-shadow(0 0 18px rgba(56,189,248,0.35));
-}
-
-#future .card h3{
-    font-size:26px;
-    color:#38bdf8;
-    margin-bottom:22px;
-    font-weight:700;
-}
-
-#future .card p{
-    font-size:19px;
-    line-height:2;
-    color:#d1d5db;
-}
-
-@media(max-width:700px){
-
-    #future .card{
-        padding:36px 28px;
-        border-radius:34px;
-    }
-
-    #future .icon{
-        font-size:54px;
-    }
-
-    #future .card h3{
-        font-size:24px;
-    }
-
-    #future .card p{
-        font-size:18px;
-        line-height:1.9;
-    }
-
-}
-
 </style>
 <button class="lang-toggle" id="langToggle" type="button">العربية</button>
 <script>
