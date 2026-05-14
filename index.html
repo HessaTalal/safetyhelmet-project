@@ -1065,6 +1065,106 @@ footer{
     }
 }
 
+
+/* FUTURE WORK PREMIUM */
+
+#future .grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:38px;
+}
+
+#future .card{
+    position:relative;
+    padding:42px 34px;
+    border-radius:38px;
+
+    background:
+    linear-gradient(
+        145deg,
+        rgba(255,255,255,0.06),
+        rgba(255,255,255,0.02)
+    );
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(18px);
+
+    overflow:hidden;
+
+    box-shadow:
+    0 0 40px rgba(56,189,248,0.08);
+
+    transition:0.45s ease;
+}
+
+#future .card::before{
+    content:'';
+    position:absolute;
+    top:0;
+    right:-120px;
+    width:320px;
+    height:100%;
+    background:linear-gradient(
+        180deg,
+        rgba(56,189,248,0.08),
+        transparent
+    );
+
+    transform:skewX(-25deg);
+}
+
+#future .card:hover{
+    transform:translateY(-10px);
+    border-color:#38bdf8;
+
+    box-shadow:
+    0 0 45px rgba(56,189,248,0.18);
+}
+
+#future .icon{
+    font-size:60px;
+    margin-bottom:28px;
+
+    filter:
+    drop-shadow(0 0 18px rgba(56,189,248,0.35));
+}
+
+#future .card h3{
+    font-size:26px;
+    color:#38bdf8;
+    margin-bottom:22px;
+    font-weight:700;
+}
+
+#future .card p{
+    font-size:19px;
+    line-height:2;
+    color:#d1d5db;
+}
+
+@media(max-width:700px){
+
+    #future .card{
+        padding:36px 28px;
+        border-radius:34px;
+    }
+
+    #future .icon{
+        font-size:54px;
+    }
+
+    #future .card h3{
+        font-size:24px;
+    }
+
+    #future .card p{
+        font-size:18px;
+        line-height:1.9;
+    }
+
+}
+
 </style>
 </head>
 <body>
@@ -1533,15 +1633,101 @@ The system was tested through hardware, software, dashboard, and full-system sce
 </div>
 </section>
 <!-- CONCLUSION -->
+
 <section class="section" id="future">
-<div class="section-title">
-<h2 data-ar="التطوير المستقبلي" data-en="Future Work">Future Work</h2>
-<p data-ar="حقق المشروع هدفه الرئيسي من خلال إنشاء خوذة ذكية عاملة تراقب مستويات الغاز، وتنبه العامل، وترسل البيانات مباشرة إلى لوحة التحكم، وتشغل المروحة أثناء الظروف الخطرة." data-en="The project achieved its main goal by creating a working smart helmet that monitors gas levels, alerts the worker, sends live data to a dashboard, and activates a fan during dangerous conditions.">
-The project achieved its main goal by creating a working smart helmet that monitors gas levels, alerts the worker, sends live data to a dashboard, and activates a fan during dangerous conditions.
-</p>
-</div>
-<div class="grid-two">
-</div></section>
+
+    <div class="section-title">
+        <h2 data-ar="التطوير المستقبلي" data-en="Future Work">
+            Future Work
+        </h2>
+
+        <p
+        data-ar="يمكن تطوير الخوذة الذكية مستقبلًا بإضافة تقنيات متقدمة لتحسين السلامة الصناعية ورفع كفاءة النظام واعتماديته."
+        data-en="The Smart Helmet can be further enhanced with advanced technologies to improve industrial safety, monitoring accuracy, and system intelligence.">
+
+        The Smart Helmet can be further enhanced with advanced technologies to improve industrial safety, monitoring accuracy, and system intelligence.
+
+        </p>
+    </div>
+
+    <div class="grid">
+
+        <div class="card">
+            <div class="icon">🤖</div>
+            <h3 data-ar="التنبؤ بالذكاء الاصطناعي" data-en="AI-Based Prediction">
+                AI-Based Prediction
+            </h3>
+            <p
+            data-ar="قد تتضمن الإصدارات المستقبلية تقنيات ذكاء اصطناعي قادرة على تحليل بيانات الحساسات والتنبؤ بتسربات الغاز أو الحالات الخطرة قبل حدوثها."
+            data-en="Future versions may include artificial intelligence capable of analyzing sensor history and predicting dangerous gas leaks before they occur.">
+            Future versions may include artificial intelligence capable of analyzing sensor history and predicting dangerous gas leaks before they occur.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="icon">📍</div>
+            <h3 data-ar="تتبع المواقع GPS" data-en="GPS Tracking">
+                GPS Tracking
+            </h3>
+            <p
+            data-ar="يمكن دمج نظام GPS داخل الخوذة لمراقبة مواقع العمال بالوقت الحقيقي خاصة في البيئات الصناعية الكبيرة."
+            data-en="A GPS tracking module can be integrated into the helmet to monitor worker locations in real time, especially in large industrial environments.">
+            A GPS tracking module can be integrated into the helmet to monitor worker locations in real time, especially in large industrial environments.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="icon">☁️</div>
+            <h3 data-ar="قاعدة بيانات سحابية" data-en="Cloud Database">
+                Cloud Database
+            </h3>
+            <p
+            data-ar="يمكن للأنظمة المستقبلية تخزين قراءات الحساسات طويلة المدى في قواعد بيانات سحابية لتحليل السلامة الصناعية وإعداد التقارير."
+            data-en="Future systems may store long-term sensor readings in cloud databases for industrial safety analysis, reporting, and monitoring.">
+            Future systems may store long-term sensor readings in cloud databases for industrial safety analysis, reporting, and monitoring.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="icon">📱</div>
+            <h3 data-ar="تطبيق الهاتف المحمول" data-en="Mobile Application">
+                Mobile Application
+            </h3>
+            <p
+            data-ar="يمكن تطوير تطبيق هاتف ذكي لعرض بيانات الحساسات المباشرة واستقبال التنبيهات والإشعارات الفورية."
+            data-en="A mobile application may be developed to display live sensor readings and provide instant alerts and emergency notifications.">
+            A mobile application may be developed to display live sensor readings and provide instant alerts and emergency notifications.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="icon">🔋</div>
+            <h3 data-ar="تحسين البطارية" data-en="Battery Optimization">
+                Battery Optimization
+            </h3>
+            <p
+            data-ar="يمكن تحسين استهلاك الطاقة واستخدام بطاريات تدوم لفترات أطول لدعم التشغيل المستمر داخل البيئات الصناعية."
+            data-en="Power consumption may be optimized using longer-lasting batteries for continuous operation in industrial workplaces.">
+            Power consumption may be optimized using longer-lasting batteries for continuous operation in industrial workplaces.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="icon">🛰️</div>
+            <h3 data-ar="تكامل إنترنت الأشياء" data-en="Advanced IoT Integration">
+                Advanced IoT Integration
+            </h3>
+            <p
+            data-ar="يمكن ربط الخوذة مع أنظمة السلامة الصناعية الأخرى لإنشاء بيئة مراقبة ذكية ومتكاملة."
+            data-en="The helmet may be integrated with industrial IoT safety systems to create a fully connected smart monitoring environment.">
+            The helmet may be integrated with industrial IoT safety systems to create a fully connected smart monitoring environment.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
 <!-- TEAM -->
 <section class="section" id="team">
 <div class="section-title">
@@ -1661,6 +1847,106 @@ body[dir="rtl"] .video-overlay{left:auto;right:20px}
 body[dir="rtl"] .floating-btn{right:auto;left:25px}
 body[dir="rtl"] .sensor-top{flex-direction:row-reverse}
 @media(max-width:1050px){.lang-toggle{top:145px;left:16px}}
+
+/* FUTURE WORK PREMIUM */
+
+#future .grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:38px;
+}
+
+#future .card{
+    position:relative;
+    padding:42px 34px;
+    border-radius:38px;
+
+    background:
+    linear-gradient(
+        145deg,
+        rgba(255,255,255,0.06),
+        rgba(255,255,255,0.02)
+    );
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(18px);
+
+    overflow:hidden;
+
+    box-shadow:
+    0 0 40px rgba(56,189,248,0.08);
+
+    transition:0.45s ease;
+}
+
+#future .card::before{
+    content:'';
+    position:absolute;
+    top:0;
+    right:-120px;
+    width:320px;
+    height:100%;
+    background:linear-gradient(
+        180deg,
+        rgba(56,189,248,0.08),
+        transparent
+    );
+
+    transform:skewX(-25deg);
+}
+
+#future .card:hover{
+    transform:translateY(-10px);
+    border-color:#38bdf8;
+
+    box-shadow:
+    0 0 45px rgba(56,189,248,0.18);
+}
+
+#future .icon{
+    font-size:60px;
+    margin-bottom:28px;
+
+    filter:
+    drop-shadow(0 0 18px rgba(56,189,248,0.35));
+}
+
+#future .card h3{
+    font-size:26px;
+    color:#38bdf8;
+    margin-bottom:22px;
+    font-weight:700;
+}
+
+#future .card p{
+    font-size:19px;
+    line-height:2;
+    color:#d1d5db;
+}
+
+@media(max-width:700px){
+
+    #future .card{
+        padding:36px 28px;
+        border-radius:34px;
+    }
+
+    #future .icon{
+        font-size:54px;
+    }
+
+    #future .card h3{
+        font-size:24px;
+    }
+
+    #future .card p{
+        font-size:18px;
+        line-height:1.9;
+    }
+
+}
+
 </style>
 <button class="lang-toggle" id="langToggle" type="button">العربية</button>
 <script>
